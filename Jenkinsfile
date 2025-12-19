@@ -21,11 +21,11 @@ pipeline {
                 // Build Docker image
                 bat 'docker build -t todo-app:latest .'
                 
-                // Stop container if running
-                bat 'docker stop todo-app || echo Container not running'
+                // Stop container if running (won't fail if it doesn't exist)
+                bat 'docker stop todo-app || exit /b 0'
                 
-                // Remove container if exists
-                bat 'docker rm todo-app || echo Container not found'
+                // Remove container if exists (won't fail if it doesn't exist)
+                bat 'docker rm todo-app || exit /b 0'
                 
                 // Run container on port 3000
                 bat 'docker run -d -p 3000:3000 --name todo-app todo-app:latest'
