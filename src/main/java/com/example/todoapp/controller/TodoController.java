@@ -1,6 +1,7 @@
 package com.example.todoapp.controller;
 
 import com.example.todoapp.model.Todo;
+import com.example.todoapp.service.TodoService;
 import com.example.todoapp.repository.TodoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
