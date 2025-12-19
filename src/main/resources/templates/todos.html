@@ -2,22 +2,166 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Todos</title>
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Container */
+        .todo-container {
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            margin-right: 10px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #f6d365;
+            box-shadow: 0 0 5px rgba(246,211,101,0.5);
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #f6d365;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #fda085;
+        }
+
+        /* Todo List */
+        ul {
+            list-style: none;
+        }
+
+        li {
+            background: #fefefe;
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        li:hover {
+            transform: translateY(-2px);
+        }
+
+        li span {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        li form button {
+            background: #ff6b6b;
+            padding: 8px 12px;
+        }
+
+        li form button:hover {
+            background: #ff8787;
+        }
+
+        /* Logout Link */
+        .logout-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #fff;
+            background: #6a11cb;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .logout-link:hover {
+            background: #2575fc;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .todo-container {
+                padding: 30px 20px;
+            }
+
+            input[type="text"], button {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            li form {
+                margin-top: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>My Todos</h2>
-<form th:action="@{/todos/add}" method="post">
-    <input type="text" name="title" placeholder="New Todo"/>
-    <button type="submit">Add</button>
-</form>
-<ul>
-    <li th:each="todo : ${todos}">
-        <span th:text="${todo.title}"></span>
-        <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post" style="display:inline">
-            <button type="submit">Delete</button>
+    <div class="todo-container">
+        <h2>My Todos</h2>
+        <form th:action="@{/todos/add}" method="post">
+            <input type="text" name="title" placeholder="New Todo" required/>
+            <button type="submit">Add</button>
         </form>
-    </li>
-</ul>
-<a th:href="@{/logout}">Logout</a>
+        <ul>
+            <li th:each="todo : ${todos}">
+                <span th:text="${todo.title}"></span>
+                <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post" style="display:inline">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        </ul>
+        <a class="logout-link" th:href="@{/logout}">Logout</a>
+    </div>
 </body>
 </html>
-
