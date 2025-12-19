@@ -15,7 +15,7 @@ pipeline {
 
         stage('Checkout Source') {
             steps {
-                git 'https://github.com/SakshiP900/Todo-list.git'
+                git branch: 'main', url: 'https://github.com/SakshiP900/Todo-list.git'
             }
         }
 
