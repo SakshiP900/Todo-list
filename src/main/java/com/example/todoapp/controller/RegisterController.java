@@ -3,9 +3,11 @@ package com.example.todoapp.controller;
 import com.example.todoapp.model.User;
 import com.example.todoapp.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/register")
 public class RegisterController {
 
@@ -18,11 +20,20 @@ public class RegisterController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // Show registration form
+    @GetMapping
+    public String showRegistrationForm() {
+        return "register";  // corresponds to register.html in templates/
+    }
+
+    // Handle registration form submission
     @PostMapping
-    public String register(@RequestParam String username,
-                           @RequestParam String password) {
+    public String registerUser(@RequestParam String username,
+                               @RequestParam String password,
+                               Model model) {
         if (userRepository.existsById(username)) {
-            return "User already exists";
+            model.addAttribute("error", "User already exists");
+            return "register";
         }
 
         User user = new User();
@@ -30,6 +41,7 @@ public class RegisterController {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
 
-        return "User registered successfully";
+        model.addAttribute("success", "User registered successfully. You can now log in.");
+        return "login";  // redirect to login page after registration
     }
 }
