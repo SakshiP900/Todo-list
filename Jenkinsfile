@@ -11,24 +11,24 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Windows batch command for Maven build
-                bat 'mvn clean package'
+                // Linux shell command for Maven build
+                sh 'mvn clean package'
             }
         }
 
         stage('Docker Build & Run') {
             steps {
                 // Build Docker image
-                bat 'docker build -t todo-app:latest .'
+                sh 'docker build -t todo-app:latest .'
                 
                 // Stop container if running (won't fail if it doesn't exist)
-                bat 'docker stop todo-app || exit /b 0'
+                sh 'docker stop todo-app || true'
                 
                 // Remove container if exists (won't fail if it doesn't exist)
-                bat 'docker rm todo-app || exit /b 0'
+                sh 'docker rm todo-app || true'
                 
                 // Run container on port 3000
-                bat 'docker run -d -p 3000:3000 --name todo-app todo-app:latest'
+                sh 'docker run -d -p 3000:3000 --name todo-app todo-app:latest'
             }
         }
     }
